@@ -1,0 +1,124 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile config data and integration tokens.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "passwordHash": { "type": "string" },
+        "fullName": { "type": "string" },
+        "company": { "type": "string" },
+        "emailReportsEnabled": { "type": "boolean" },
+        "theme": { "type": "string", "enum": ["light", "dark"] },
+        "createdAt": { "type": "string" },
+        "gmailToken": { "type": "string" },
+        "gmailEmail": { "type": "string" },
+        "precoPorLitro": { "type": "number" },
+        "whatsappReportsEnabled": { "type": "boolean" },
+        "whatsappPhone": { "type": "string" }
+      },
+      "required": ["id", "email", "passwordHash", "fullName"]
+    },
+    "MeterReading": {
+      "title": "MeterReading",
+      "description": "Utility meter readings for electricity, water, fuel and internet.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "category": { "type": "string", "enum": ["energia", "agua", "combustivel", "internet"] },
+        "readingDate": { "type": "string" },
+        "readingValue": { "type": "number" },
+        "consumption": { "type": "number" },
+        "unit": { "type": "string" },
+        "notes": { "type": "string" },
+        "kmInicial": { "type": "number" },
+        "kmFinal": { "type": "number" },
+        "destinos": { "type": "string" },
+        "costMt": { "type": "number" },
+        "readingValueOffpeak": { "type": "number" },
+        "consumptionOffpeak": { "type": "number" },
+        "readingValuePeak": { "type": "number" },
+        "consumptionPeak": { "type": "number" },
+        "saldoInicioDia": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "gmailId": { "type": "string" },
+        "distancia": { "type": "number" },
+        "consumoLitros": { "type": "number" },
+        "consumoMt": { "type": "number" },
+        "precoPorLitro": { "type": "number" },
+        "source": { "type": "string" }
+      },
+      "required": ["id", "userId", "category", "readingDate", "readingValue", "consumption", "unit", "createdAt"]
+    },
+    "Alert": {
+      "title": "Alert",
+      "description": "Alert signals for unusual consumption patterns.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "monitorId": { "type": "string" },
+        "monitorName": { "type": "string" },
+        "date": { "type": "string" },
+        "value": { "type": "number" },
+        "average7days": { "type": "number" },
+        "percentDeviation": { "type": "number" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "monitorId", "monitorName", "date", "value", "createdAt"]
+    },
+    "Target": {
+      "title": "Target",
+      "description": "Monthly targets limits set per category parameter.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "category": { "type": "string", "enum": ["energia", "agua", "combustivel", "internet"] },
+        "month": { "type": "string" },
+        "targetValue": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "category", "month", "targetValue", "createdAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Chat log threads for user queries and system/AI replies.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "model"] },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "role", "content", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile parameters"
+    },
+    "readings/{readingId}": {
+      "schema": { "$ref": "#/entities/MeterReading" },
+      "description": "Utility consumption measurements"
+    },
+    "alerts/{alertId}": {
+      "schema": { "$ref": "#/entities/Alert" },
+      "description": "Detection notifications"
+    },
+    "targets/{targetId}": {
+      "schema": { "$ref": "#/entities/Target" },
+      "description": "Target goals limits"
+    },
+    "chats/{chatId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Thread conversation log indices"
+    }
+  }
+}
